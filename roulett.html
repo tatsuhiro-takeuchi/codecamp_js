@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>１６ルーレット</title>
+    <link rel="stylesheet" href="roulett.css">
+    <script type="text/javascript">
+    //ルーレット表用の配列
+    var value=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
+    //初動１、またrandamで配列から
+    var one=1;
+    //setInterval用変数
+    var time;
+    //
+    var rand=0;
+    //初期状態・スタートボタンのみ押下可
+    var begin = false;
+    
+    //スタート押下時、stop,resetのみ押下可
+    function start_event(){
+    document.getElementById("start").disabled = true;
+    document.getElementById("stop").disabled = false;
+    document.getElementById("reset").disabled = false;
+    if(begin === false){
+    //start_event2を0.05単位で繰り返す。
+    time = setInterval(start_event2,50);
+    begin = true;}}
+    
+     //スタートボタン押下時の動作
+     function start_event2(){
+     //表上の各数値について変数を作成
+     var div_one = document.getElementById('div' + one);
+     //スカイブルーのクラスをリムーブ
+     div_one.classList.remove('skyblue');
+     //16個の整数からランダムで一つを選択
+     rand = Math.floor(Math.random()*value.length);
+     //変数numberに配列value(ランダムを代入
+     one = value[rand];
+     //
+     console.log(rand + ':' + one);
+     //変数div_numberにid="divnumber"を代入
+     div_one = document.getElementById('div' + one); 
+     //numberにskyblueクラスを代入
+     div_one.classList.add('skyblue');}
+       //ここまでstart_event2を繰り返し
+       
+      //ここからstop_event
+     function stop_event(){
+      //ストップボタン押下不可
+     document.getElementById("stop").disabled = true;
+　　　//上記インターバルを解除
+      clearInterval(time);
+      //スタートボタン押下不可
+      document.getElementById("start").disabled = false;
+      
+      begin = false;
+      //配列valueから切除
+      value.splice(rand,1);
+      //div+number IDを変数にセット
+      var div_one = document.getElementById('div' + one);
+      //クラスskyblue除去
+      div_one.classList.remove('skyblue');
+      //クラスyellowを追加
+      div_one.classList.add("red");
+      //もし配列valueが０になったら
+      if(value.length === 0){
+    　//IDスタートは押せなくなる。
+      document.getElementById("start").disabled = true;}}
+      
+      //リセットイベント
+      function reset_event(){
+      //インターバルクリア
+      clearInterval(time);
+      
+      begin = false;
+      //スタート押下可能
+      document.getElementById("start").disabled = false;
+      document.getElementById("stop").disabled = true;
+　　　//DIV１ ~DIV16のクラススカイブルー・イエロー・レッド削除
+      for(var j = 1; j <= 16 ; j++){
+      var all = document.getElementById("div" + j);
+      all.classList.remove('skyblue');
+      all.classList.remove('yellow');
+      all.classList.remove('red');}}
+    
+    //ページロード時作動
+    window.onload=function(){
+      var start=document.getElementById("start");
+       start.addEventListener("click",start_event,false);
+      
+      var stop=document.getElementById("stop");
+      stop.addEventListener("click",stop_event,false);
+      document.getElementById("stop").disabled = true;
+      
+      var reset=document.getElementById("reset");
+      reset.addEventListener("click",reset_event,false);
+      document.getElementById("reset").disabled = true;
+      
+      var list=document.getElementById("list");
+     
+      //list表示
+      for(var i=0;i<value.length;i++){
+        var div = document.createElement("div");
+        div.innerHTML = value[i]; 
+        div.id = 'div' + value[i];
+        div.classList.add("div");
+        list.appendChild(div);
+      }
+    }
+    
+  </script>
+</head>
+
+<body>
+<div id = "list" class="list"></div>
+<input type=button id="start" class="button" value="スタート">
+<input type=button id="stop" class="button" value="ストップ">
+<input type=button id="reset" class="button" value="リセット">
+</body>
+</html>

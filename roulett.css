@@ -1,0 +1,18 @@
+.skyblue{background-color:skyblue}
+.red{background-color:red}
+.div{
+  border:solid 1px black;
+  width:35px;
+  height:33px;
+  text-align:center;
+  padding:5px 5px;
+}
+.class{
+  font-size:5px;
+}
+.list{
+    display: flex;
+    width: 200px;
+    height: 180px;
+    flex-wrap: wrap;
+}
